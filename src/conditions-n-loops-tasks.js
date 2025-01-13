@@ -377,23 +377,24 @@ function getSpiralMatrix(size) {
  *  ]                 ]
  */
 function rotateMatrix(matrix) {
-  for (let i = 0; i < matrix.length; i += 1) {
-    for (let j = i + 1; j < matrix.length; j += 1) {
-      let temp = matrix[i][j];
-      matrix[i][j] = matrix[j][i];
-      matrix[j][i] = temp;
+  const result = matrix;
+  for (let i = 0; i < result.length; i += 1) {
+    for (let j = i + 1; j < result.length; j += 1) {
+      const temp = result[i][j];
+      result[i][j] = result[j][i];
+      result[j][i] = temp;
     }
   }
 
-  for (let i = 0; i < matrix.length; i += 1) {
-    for (let j = 0, k = matrix.length - 1; j < k; j += 1, k -= 1) {
-      let temp = matrix[i][j];
-      matrix[i][j] = matrix[i][k];
-      matrix[i][k] = temp;
+  for (let i = 0; i < result.length; i += 1) {
+    for (let j = 0, k = result.length - 1; j < k; j += 1, k -= 1) {
+      const temp = result[i][j];
+      result[i][j] = result[i][k];
+      result[i][k] = temp;
     }
   }
 
-  return matrix;
+  return result;
 }
 
 /**
@@ -409,9 +410,32 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5]       => [2, 5, 9]
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
+ *  https://www.youtube.com/watch?v=btS8Qf-wM2M - learn
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+
+function sortByAsc(arr) {
+  const array = arr;
+  function quickSort(left, right) {
+    if (left >= right) return;
+
+    const pivot = array[right];
+    let i = left;
+
+    for (let j = left; j < right; j += 1) {
+      if (array[j] < pivot) {
+        [array[i], array[j]] = [array[j], array[i]];
+        i += 1;
+      }
+    }
+
+    [array[i], array[right]] = [array[right], array[i]];
+
+    quickSort(left, i - 1);
+    quickSort(i + 1, right);
+  }
+
+  quickSort(0, array.length - 1);
+  return arr;
 }
 
 /**
